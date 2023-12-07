@@ -3,7 +3,7 @@ name: Deploy to S3
 on:
   push:
     branches:
-      - master # or your preferred branch
+      - master
 
 jobs:
   build:
@@ -16,8 +16,8 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
-          node-version: "16" # or your preferred Node.js version
-          registry-url: "https://registry.yarnpkg.com/" # Set Yarn registry
+          node-version: "16"
+          registry-url: "https://registry.yarnpkg.com/"
 
       - name: Install dependencies and build
         run: |
@@ -28,9 +28,8 @@ jobs:
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --delete
-          source_dir: dist
         env:
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        # Replace secrets.AWS_S3_BUCKET, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY with your S3 bucket and credentials
+          SOURCE_DIR: dist
