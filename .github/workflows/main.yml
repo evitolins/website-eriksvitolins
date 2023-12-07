@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2
         with:
-          node-version: "14" # or your preferred Node.js version
+          node-version: "16" # or your preferred Node.js version
           registry-url: "https://registry.yarnpkg.com/" # Set Yarn registry
 
       - name: Install dependencies and build
