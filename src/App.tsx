@@ -1,34 +1,77 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { useEffect, useState } from "react";
+import { About } from "./About";
+import "./App.scss";
+import { Footer } from "./Footer";
+import { Showcase } from "./Showcase";
+import { NavLink, Route, Routes } from "react-router-dom";
+import useAudioAmplitude from "./hooks/useAudio";
+import audiofile from "./assets/Melt.mp3";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+
+  const { play, isReady, handleClick } = useAudioAmplitude(audiofile, (x) => {
+    console.log(x);
+  });
+
+  useEffect(() => {
+    isReady && play();
+  }, [isReady, play]);
+
+  function handleMouseMove(ev: React.MouseEvent) {
+    setMouse({ x: ev.pageX, y: ev.pageY });
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div onClick={handleClick} onMouseMove={handleMouseMove}>
+      <Showcase
+        numSplines={100}
+        numVertices={100}
+        splineOffset={0.2}
+        maxOffset={10}
+        maxRotate={360}
+        minThickness={1}
+        maxThickness={16}
+        mouseX={mouse.x}
+        mouseY={mouse.y}
+        wiggle={mouse.y}
+      />
+      <div className="menu">
+        <NavLink
+          to="/about"
+          className={({ isActive }) => (isActive ? "current" : "")}
+        >
+          about
+        </NavLink>
+        <NavLink
+          to="/work"
+          className={({ isActive }) => (isActive ? "current" : "")}
+        >
+          work
+        </NavLink>
+        <NavLink
+          to="/music"
+          className={({ isActive }) => (isActive ? "current" : "")}
+        >
+          music
+        </NavLink>
+        <NavLink
+          to="/contact"
+          className={({ isActive }) => (isActive ? "current" : "")}
+        >
+          contact
+        </NavLink>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+
+      <Routes>
+        <Route index element={<About />} />
+        <Route path="/about" element={<About />} />
+        {/* <Route path="/work" element={<Work />} /> */}
+        {/* <Route path="/contact" element={<Contact />} /> */}
+      </Routes>
+
+      <Footer />
+    </div>
   );
 }
 

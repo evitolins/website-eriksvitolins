@@ -1,0 +1,169 @@
+@use "sass:color";
+
+@import url("https://fonts.cdnfonts.com/css/farmhouse-children");
+@import url("https://fonts.cdnfonts.com/css/elza-trial");
+@import url("https://fonts.cdnfonts.com/css/gg-sans-2");
+@import url("https://fonts.cdnfonts.com/css/mikado");
+
+// $main-color: #f34;
+// $faded-color: color.change($main-color, $whiteness: 90%);
+
+$main-color: rgb(37, 69, 90);
+$faded-color: color.change($main-color, $lightness: 90%);
+
+#root {
+  max-width: 1300px;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  color: $main-color;
+  font-family: "gg sans Normal", sans-serif;
+  /*   font-family: 'Elza Text Trial', sans-serif; */
+  display: flex;
+  justify-content: center;
+}
+
+canvas {
+  width: 100%;
+  aspect-ratio: 55/21;
+}
+
+hr {
+  border: 1px solid white;
+  margin: 0;
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+  padding: 0;
+  margin: 0 4em;
+}
+
+.menu a {
+  color: inherit;
+  text-decoration: none;
+  /*   font-family: "Farmhouse Children", sans-serif; */
+  /*   font-family: 'Elza Trial', sans-serif; */
+  font-family: "Mikado", sans-serif;
+  font-weight: 500;
+  font-size: 1.2em;
+  padding: 0.5em 2em;
+  margin: 1em;
+  flex: 1;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.menu a:hover,
+.menu a.current {
+  background: $main-color;
+  color: #fff;
+}
+
+.content-nav {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 4rem;
+  /*   border-top: 1px solid $main-color; */
+  background: $faded-color;
+}
+
+.content-nav input {
+  font-size: 1.2em;
+  border: 2px solid $main-color;
+  border-radius: 6px;
+  color: $main-color;
+  padding: 0.3rem 0.5rem 0.3rem 2.2rem;
+  fill: $main-color;
+  background: #fff url("assets/search.svg") no-repeat 10px center;
+}
+
+.content-nav .label {
+  font-size: 1.1em;
+  color: $main-color;
+  padding: 0.3rem 0.5rem;
+  font-family: "Mikado", sans-serif;
+}
+
+.search {
+  stroke: green;
+}
+
+.content-nav .input-label {
+  font-size: 0.8em;
+  color: $main-color;
+  padding: 0.3rem 0.5rem;
+  font-family: "Mikado", sans-serif;
+}
+
+.content {
+  padding: 4em;
+  background: $faded-color;
+}
+
+.content > .article {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.content > .article .article-image {
+  background: $main-color;
+  margin: 1em;
+  border-radius: 1rem;
+  color: #fff;
+  background-repeat: no-repeat;
+  // filter: sepia(1) hue-rotate(161deg);
+  // filter: contrast(0.5) sepia(1) hue-rotate(305deg);
+  // filter: sepia(1) hue-rotate(305deg) contrast(1.5);
+  // filter: contrast(0.5) brightness(1.3);
+}
+
+.content > .article .article-content {
+  padding: 0 0 0 2rem;
+}
+
+.footer-container {
+  padding: 2em;
+  text-align: center;
+}
+
+.article-content p {
+  font-size: 0.9rem;
+}
+
+.article-tags {
+  width: 25vw;
+}
+.article-tags > .tag {
+  display: inline-block;
+  border-radius: 4px;
+  background: $main-color;
+  padding: 0.2rem 0.5rem;
+  color: #fff;
+  margin: 0.1rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.article-tags > .tag:hover {
+  background: #fff;
+  color: $main-color;
+}
+
+h2 {
+  margin-bottom: 0.2rem;
+  font-family: "Elza Trial", sans-serif;
+  font-family: "Mikado", sans-serif;
+}
+
+h2 span {
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
