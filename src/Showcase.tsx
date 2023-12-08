@@ -1,5 +1,7 @@
 import { useCallback, useEffect } from "react";
+import opentype from "opentype.js";
 import { useCanvas } from "./useCanvas";
+import fontUrl from "./assets/Boteka-4BA3x.woff";
 
 interface ShowcaseSettings {
   numSplines: number; // Number of splines to generate
@@ -27,6 +29,32 @@ export const Showcase = ({
   wiggle = 60,
 }: ShowcaseSettings): JSX.Element => {
   const { canvasRef, ctx } = useCanvas();
+
+  function addNameClipping(ctx: CanvasRenderingContext2D): void {
+    // const fontUrl = "https://fonts.cdnfonts.com/s/102954/Boteka-4BA3x.woff";
+    const text = "Eriks";
+    const text2 = "Vitolins";
+    opentype.load(fontUrl, function (err, font) {
+      if (err || !font) {
+        console.error("Font loading failed", err.message);
+      } else {
+        const path = font.getPath(text, 80, 260, 200);
+        const path2 = font.getPath(text2, 80, 400, 133);
+
+        // path.stroke = "#fff";
+        // path.strokeWidth = 325;
+        // path2.stroke = "#fff";
+        // path2.strokeWidth = 325;
+        // path.draw(ctx);
+        // path2.draw(ctx);
+
+        ctx.clip(new Path2D(path2.toPathData(2) + path.toPathData(2)));
+
+        // setInterval(() => { render(); } , 80);
+        // render();
+      }
+    });
+  }
 
   const render = useCallback(
     (ctx: CanvasRenderingContext2D, settings: ShowcaseSettings) => {
@@ -90,8 +118,8 @@ export const Showcase = ({
       clear();
 
       // Add background
-      ctx.fillStyle = "rgb(37, 69, 90)";
-      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      // ctx.fillStyle = "rgb(37, 69, 90)";
+      // ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
       // Generate a series of splines with offsets
       let startX = 10; // Adjusted to start from the left
@@ -110,8 +138,11 @@ export const Showcase = ({
   );
 
   useEffect(() => {
-    if (!ctx) return;
-    render(ctx, {
+    if (ctx) addNameClipping(ctx);
+  }, [ctx]);
+
+  useEffect(() => {
+    const settings = {
       numSplines,
       numVertices,
       splineOffset,
@@ -122,11 +153,13 @@ export const Showcase = ({
       mouseX,
       mouseY,
       wiggle,
-    });
-    // const id = setInterval(() => render(ctx), 10);
-    // return () => {
-    //   clearInterval(id);
-    // };
+    };
+    if (!ctx) return;
+    render(ctx, settings);
+    const id = setInterval(() => render(ctx, settings), 10);
+    return () => {
+      clearInterval(id);
+    };
   }, [ctx, render, mouseX, mouseY, wiggle]);
 
   return (
@@ -135,7 +168,7 @@ export const Showcase = ({
       id="canvas"
       width="1100"
       height="420"
-      style={{ background: "#fff" }}
+      style={{ background: "rgb(37, 69, 90)" }}
     />
   );
 };
