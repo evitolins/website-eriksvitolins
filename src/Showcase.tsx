@@ -38,15 +38,15 @@ export const Showcase = ({
       if (err || !font) {
         console.error("Font loading failed", err.message);
       } else {
-        const path = font.getPath(text, 80, 260, 200);
-        const path2 = font.getPath(text2, 80, 400, 133);
+        const path = font.getPath(text, 110, 240, 200);
+        const path2 = font.getPath(text2, 110, 380, 133);
 
-        // path.stroke = "#fff";
-        // path.strokeWidth = 325;
-        // path2.stroke = "#fff";
-        // path2.strokeWidth = 325;
-        // path.draw(ctx);
-        // path2.draw(ctx);
+        path.stroke = "#fff";
+        path.strokeWidth = 6;
+        path2.stroke = "#fff";
+        path2.strokeWidth = 6;
+        path.draw(ctx);
+        path2.draw(ctx);
 
         ctx.clip(new Path2D(path2.toPathData(2) + path.toPathData(2)));
 
